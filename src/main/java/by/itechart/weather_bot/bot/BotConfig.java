@@ -1,18 +1,17 @@
 package by.itechart.weather_bot.bot;
 
 
-
 import by.itechart.weather_bot.command.CommandContainer;
+import by.itechart.weather_bot.mapping.WeatherMapper;
 import by.itechart.weather_bot.service.bot.SendBotMessageServiceImpl;
-import lombok.RequiredArgsConstructor;
+import by.itechart.weather_bot.service.weather.WeatherService;
+import by.itechart.weather_bot.service.weather.WeatherStackService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-
-import java.util.Locale;
 
 import static by.itechart.weather_bot.command.CommandName.NO;
 
@@ -27,10 +26,18 @@ public class BotConfig extends TelegramLongPollingBot {
 
     public static String COMMAND_PREFIX = "/";
 
-    private final CommandContainer commandContainer;
+    private WeatherService weatherService;
+
+    private CommandContainer commandContainer;
+
+    @Autowired
+    public BotConfig(WeatherService weatherService) {
+        this.weatherService = weatherService;
+        this.commandContainer = new CommandContainer(
+                new SendBotMessageServiceImpl(this), weatherService);
+    }
 
     public BotConfig() {
-        this.commandContainer = new CommandContainer(new SendBotMessageServiceImpl(this));
     }
 
     @Override
