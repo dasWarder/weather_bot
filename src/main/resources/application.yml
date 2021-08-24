@@ -1,4 +1,6 @@
-
+api:
+  weatherstack:
+    key: ${WEATHER_STACK_KEY}
 bot:
   user: ${WEATHER_BOT_USER}
   token: ${WEATHER_BOT_TOKEN}
