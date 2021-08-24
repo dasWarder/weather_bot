@@ -1,0 +1,4 @@
+
+bot:
+  user: ${WEATHER_BOT_USER}
+  token: ${WEATHER_BOT_TOKEN}
