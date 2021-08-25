@@ -13,26 +13,26 @@ import lombok.NoArgsConstructor;
 public class Day {
 
     @JsonProperty("maxtemp_c")
-    private Double maxTemp;
+    private Integer maxTemp;
 
     @JsonProperty("mintemp_c")
-    private Double minTemp;
+    private Integer minTemp;
 
     @JsonProperty("avgtemp_c")
-    private Double avgTemp;
+    private Integer avgTemp;
 
     @JsonProperty("maxwind_kph")
-    private Double maxWind;
+    private Integer maxWind;
 
-    @JsonProperty("totalprecip_in")
-    private Double totalPrecip;
+    @JsonProperty("totalprecip_mm")
+    private Integer totalPrecip;
 
     @JsonProperty("avghumidity")
-    private Double avgHumidity;
+    private Integer avgHumidity;
 
     @JsonProperty("daily_chance_of_rain")
     private Integer chanceOfRain;
 
     @JsonProperty("uv")
-    private Double sunIndex;
+    private Integer sunIndex;
 }

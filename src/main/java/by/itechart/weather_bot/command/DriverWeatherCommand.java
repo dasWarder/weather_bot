@@ -16,21 +16,21 @@ import static by.itechart.weather_bot.util.botUtil.BotUtil.*;
 @Slf4j
 public class DriverWeatherCommand extends AbstractWeatherCommand {
 
-    public static final String WEATHER_MESSAGE_ENG = "<b> Current weather for city %s: </b> \n" +
-            "Temperature: %d&#176;С \n" +
-            "Amount of precipitations: %d \n" +
-            "Wind: %d \n" +
-            "Humidity: %d \n" +
-            "Visibility: %d \n" +
-            "Amount of sun: %d \n";
+    public static final String WEATHER_MESSAGE_ENG = "<b><u>Current weather for city %s:</u></b> \n\n" +
+                                                    "Temperature: <strong>%s&#8451;</strong> \n" +
+                                                    "Amount of precipitations: <strong>%d &#13212; &#9729;</strong> \n" +
+                                                    "Wind: <strong>%d mS</strong> \n" +
+                                                    "Humidity: <strong>%d%c</strong> \n" +
+                                                    "Visibility: <strong>%d m</strong> \n" +
+                                                    "Amount of sun: <strong>%d &#9728;</strong> \n";
 
-    public static final String WEATHER_MESSAGE_RU = "<b> Текущая погода для города %s: </b> \n" +
-            "Температура: %d&#176;С \n" +
-            "Количество осадков: %d \n" +
-            "Ветер: %d \n" +
-            "Влажность: %d \n" +
-            "Видимость: %d \n" +
-            "Количество солнечного света: %d \n";
+    public static final String WEATHER_MESSAGE_RU = "<b><u>Текущая погода для города %s:</u></b> \n\n" +
+                                                    "Температура: <strong>%s &#8451;</strong> \n" +
+                                                    "Количество осадков: <strong>%d &#13212; &#9729;</strong> \n" +
+                                                    "Ветер: <strong>%d мС</strong> \n" +
+                                                    "Влажность: <strong>%d%c</strong> \n" +
+                                                    "Видимость: <strong>%d м</strong> \n" +
+                                                    "Количество солнечного света: <strong>%d &#9728;</strong> \n";
 
     public DriverWeatherCommand(BotConfig botConfig, SendBotMessageService messageService, WeatherService weatherService) {
         super(botConfig, messageService, weatherService);
@@ -57,6 +57,7 @@ public class DriverWeatherCommand extends AbstractWeatherCommand {
     private String formulateResponseMessage(String city) {
 
         Locale locale = botConfig.getLocale();
+        char per = 045;
 
         try {
 
@@ -66,7 +67,7 @@ public class DriverWeatherCommand extends AbstractWeatherCommand {
 
             return String.format(localeResponse, city, currentDriverWeather.getTemperature(),
                                                         currentDriverWeather.getPrecip(), currentDriverWeather.getWind(),
-                                                        currentDriverWeather.getHumidity(), currentDriverWeather.getVisibility(),
+                                                        currentDriverWeather.getHumidity(), per, currentDriverWeather.getVisibility(),
                                                         currentDriverWeather.getSunIndex());
 
         } catch (NotValidException e) {
