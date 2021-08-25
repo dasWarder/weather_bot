@@ -3,17 +3,26 @@ package by.itechart.weather_bot.bot;
 
 import by.itechart.weather_bot.command.CommandContainer;
 import by.itechart.weather_bot.mapping.WeatherMapper;
+import by.itechart.weather_bot.service.bot.SendBotMessageService;
 import by.itechart.weather_bot.service.bot.SendBotMessageServiceImpl;
 import by.itechart.weather_bot.service.weather.WeatherService;
 import by.itechart.weather_bot.service.weather.WeatherStackService;
+import by.itechart.weather_bot.util.botUtil.BotUtil;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
+import java.util.Locale;
+
 import static by.itechart.weather_bot.command.CommandName.NO;
+import static by.itechart.weather_bot.util.botUtil.BotUtil.getMessageFromUpdate;
 
 @Component
 public class BotConfig extends TelegramLongPollingBot {
@@ -30,11 +39,17 @@ public class BotConfig extends TelegramLongPollingBot {
 
     private CommandContainer commandContainer;
 
+    private SendBotMessageService messageService;
+
+    @Getter
+    @Setter
+    private Locale locale = new Locale("us");
+
     @Autowired
     public BotConfig(WeatherService weatherService) {
         this.weatherService = weatherService;
-        this.commandContainer = new CommandContainer(
-                new SendBotMessageServiceImpl(this), weatherService);
+        this.messageService = new SendBotMessageServiceImpl(this);
+        this.commandContainer = new CommandContainer(this.messageService, this.weatherService, this);
     }
 
     public BotConfig() {
@@ -52,9 +67,8 @@ public class BotConfig extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
-
         if(update.hasMessage() && update.getMessage().hasText()) {
-            String message = update.getMessage().getText().trim();
+            String message = getMessageFromUpdate(update);
             if(message.startsWith(COMMAND_PREFIX)) {
                 String commandIdentifier = message.split(" ")[0].toLowerCase();
 
