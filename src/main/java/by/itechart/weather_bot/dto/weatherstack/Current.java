@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -17,6 +18,21 @@ public class Current implements Serializable {
     @JsonProperty("temperature")
     private Integer temperature;
 
+    @JsonProperty("wind_speed")
+    private Integer wind;
+
+    @JsonProperty("precip")
+    private Integer precip;
+
     @JsonProperty("humidity")
-    private Long humidity;
+    private Integer humidity;
+
+    @JsonProperty("feelslike")
+    private Integer feelsLike;
+
+    @JsonProperty("uv_index")
+    private Integer sunIndex;
+
+    @JsonProperty("visibility")
+    private Integer visibility;
 }

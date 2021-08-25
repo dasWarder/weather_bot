@@ -11,15 +11,17 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Weather implements Serializable {
+public class DriverWeather implements Serializable {
 
     private Integer temperature;
 
-    private Integer wind;
-
     private Integer precip;
 
-    private Integer feelsLike;
+    private Integer wind;
+
+    private Integer humidity;
+
+    private Integer visibility;
 
     private Integer sunIndex;
 }

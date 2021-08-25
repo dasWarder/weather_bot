@@ -1,11 +1,10 @@
 package by.itechart.weather_bot.service.weather;
 
+import by.itechart.weather_bot.dto.DriverWeather;
 import by.itechart.weather_bot.dto.Weather;
 import by.itechart.weather_bot.dto.weatherstack.WeatherStackWeather;
 import by.itechart.weather_bot.exception.NotValidException;
 import by.itechart.weather_bot.mapping.WeatherMapper;
-import by.itechart.weather_bot.util.ValidateUtil;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -39,12 +38,30 @@ public class WeatherStackService implements WeatherService {
         notNull(city, "The city param must be not null");
         log.info("Receiving current weather for city = {}", city);
 
+        WeatherStackWeather responseDto = getApiResponse(city);
+        Weather weatherResponse = mapper.fromWeatherStackWeatherToWeather(responseDto);
+
+        return weatherResponse;
+    }
+
+    @Override
+    public DriverWeather getCurrentDriverWeatherInfo(String city) throws NotValidException {
+        notNull(city, "The city param must be not null");
+        log.info("Receiving current driver weather for city = {}", city);
+
+        WeatherStackWeather responseDto = getApiResponse(city);
+        DriverWeather driverWeatherResponse = mapper.fromWeatherStackWeatherToDriverWeather(responseDto);
+
+        return driverWeatherResponse;
+    }
+
+    private WeatherStackWeather getApiResponse(String city) throws NotValidException {
+
         String requestUri = String.format(BASE_URI, API_KEY, city);
 
         WeatherStackWeather responseDto = restTemplate.getForObject(requestUri, WeatherStackWeather.class);
         validateObject(responseDto, responseDto.getCurrent());
-        Weather weatherResponse = mapper.fromWeatherStackWeatherToWeather(responseDto);
 
-        return weatherResponse;
+        return responseDto;
     }
 }
