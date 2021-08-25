@@ -7,7 +7,8 @@ public enum CommandName {
     HELP("/help"),
     NO("/"),
     GET_WEATHER("/weather"),
-    GET_DRIVER_WEATHER("/drive");
+    GET_DRIVER_WEATHER("/drive"),
+    FORECAST("/forecast");
 
     private final String commandName;
 

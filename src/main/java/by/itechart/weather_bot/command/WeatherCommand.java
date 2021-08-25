@@ -16,19 +16,19 @@ import static by.itechart.weather_bot.util.botUtil.BotUtil.*;
 @Slf4j
 public class WeatherCommand extends AbstractWeatherCommand{
 
-    public static final String WEATHER_MESSAGE_ENG = "<b> Current weather for city %s: </b> \n" +
-                                                                        "Temperature: %d&#176;С, " +
-                                                                        "but feels like: %d&#176;С \n" +
-                                                                        "Amount of precipitations: %d \n" +
-                                                                        "Wind: %d \n" +
-                                                                        "Amount of sun: %d \n";
+    public static final String WEATHER_MESSAGE_ENG = "<b><u>Current weather for city %s:</u></b> \n\n" +
+                                                                        "Temperature: <strong>%s &#8451;</strong>, " +
+                                                                        "but feels like: <strong>%s &#8451;</strong> \n" +
+                                                                        "Amount of precipitations: <strong>%d &#13212; &#9729;</strong> \n" +
+                                                                        "Wind: <strong>%d mS</strong> \n" +
+                                                                        "Amount of sun: <strong>%d &#9728;</strong> \n";
 
-    public static final String WEATHER_MESSAGE_RU = "<b> Текущая погода для города %s: </b> \n" +
-                                                                    "Температура: %d&#176;С, " +
-                                                                    ", но ощущается как: %d&#176;С \n" +
-                                                                    "Количество осадков: %d \n" +
-                                                                    "Ветер: %d \n" +
-                                                                    "Количество солнечного света: %d \n";
+    public static final String WEATHER_MESSAGE_RU = "<b><u>Текущая погода для города %s:</u></b> \n\n" +
+                                                                    "Температура: <strong>%s &#8451;</strong>, " +
+                                                                    "но ощущается как: <strong>%s &#8451;</strong> \n" +
+                                                                    "Количество осадков: <strong>%d &#13212; &#9729;</strong> \n" +
+                                                                    "Ветер: <strong>%d мС</strong> \n" +
+                                                                    "Количество солнечного света: <strong>%d &#9728;</strong> \n";
 
     public WeatherCommand(BotConfig botConfig, SendBotMessageService messageService, WeatherService weatherService) {
         super(botConfig, messageService, weatherService);

@@ -2,20 +2,15 @@ package by.itechart.weather_bot.bot;
 
 
 import by.itechart.weather_bot.command.CommandContainer;
-import by.itechart.weather_bot.mapping.WeatherMapper;
 import by.itechart.weather_bot.service.bot.SendBotMessageService;
 import by.itechart.weather_bot.service.bot.SendBotMessageServiceImpl;
+import by.itechart.weather_bot.service.weather.ForecastService;
 import by.itechart.weather_bot.service.weather.WeatherService;
-import by.itechart.weather_bot.service.weather.WeatherStackService;
-import by.itechart.weather_bot.util.botUtil.BotUtil;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
@@ -37,22 +32,22 @@ public class BotConfig extends TelegramLongPollingBot {
 
     private WeatherService weatherService;
 
-    private CommandContainer commandContainer;
+    private final CommandContainer commandContainer;
 
-    private SendBotMessageService messageService;
+    private final SendBotMessageService messageService;
+
+    private final ForecastService forecastService;
 
     @Getter
     @Setter
     private Locale locale = new Locale("us");
 
     @Autowired
-    public BotConfig(WeatherService weatherService) {
+    public BotConfig(WeatherService weatherService, ForecastService forecastService) {
         this.weatherService = weatherService;
+        this.forecastService = forecastService;
         this.messageService = new SendBotMessageServiceImpl(this);
-        this.commandContainer = new CommandContainer(this.messageService, this.weatherService, this);
-    }
-
-    public BotConfig() {
+        this.commandContainer = new CommandContainer(this.messageService, this.weatherService, this, this.forecastService);
     }
 
     @Override

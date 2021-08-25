@@ -5,10 +5,6 @@ import by.itechart.weather_bot.service.bot.SendBotMessageService;
 import by.itechart.weather_bot.service.weather.WeatherService;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
-import static by.itechart.weather_bot.command.CommandName.GET_WEATHER;
-import static by.itechart.weather_bot.util.botUtil.BotUtil.getChatIdFromUpdate;
-import static by.itechart.weather_bot.util.botUtil.BotUtil.getMessageFromUpdate;
-
 public abstract class AbstractWeatherCommand implements Command {
 
     protected final BotConfig botConfig;

@@ -17,13 +17,14 @@ public class HelpCommand implements Command {
 
     private final SendBotMessageService messageService;
 
-    public static final String HELP_MESSAGE_ENG = "<b>Possible commands:</b>\n\n" +
+    public static final String HELP_MESSAGE_ENG = "<b><u>Possible commands:</u></b>\n\n" +
                                                         "%s - get help \n" +
                                                         "%s - select Russian language \n" +
                                                         "%s - select English language \n" +
                                                         "%s - receive start information \n" +
-                                                        "%s <i>city_name</i> - get current weather for city \n" +
-                                                        "%s <i>city_name</i> - get drive weather for city \n";
+                                                        "%s <i>city_name</i> - get current weather for a city \n" +
+                                                        "%s <i>city_name</i> - get drive weather for a city \n" +
+                                                        "%s <i>city_name</i> - get forecast for 3 days for a city";
 
     public static final String HELP_MESSAGE_RU = "<b>Возможные команды:</b>\n\n" +
                                         "%s - получить помощь \n" +
@@ -31,7 +32,9 @@ public class HelpCommand implements Command {
                                         "%s - выбрать английский язык \n" +
                                         "%s - получить стартовую информацию\n" +
                                         "%s <i>название_города</i> - получить актуальную погоду для выбранного города \n" +
-                                        "%s <i>название_города</i> - получить водительский прогноз погоды для выбранного города \n";
+                                        "%s <i>название_города</i> - получить водительский прогноз погоды для выбранного города \n" +
+                                        "%s <i>название_города</i> - получить прогноз на 3 дня для выбранного города \n" +
+                                        "%s [<i>количество дней</i>] <i>название_города</i> - получить прогноз на N дней(макс. 3) для выбранного города \n";
 
     @Override
     public void execute(Update update) {
@@ -41,7 +44,8 @@ public class HelpCommand implements Command {
         String response = String.format(localeResponse,
                                                    HELP.getCommandName(), RU.getCommandName(),
                                                    ENG.getCommandName(), START.getCommandName(),
-                                                   GET_WEATHER.getCommandName(), GET_DRIVER_WEATHER.getCommandName());
+                                                   GET_WEATHER.getCommandName(), GET_DRIVER_WEATHER.getCommandName(),
+                                                   FORECAST.getCommandName());
 
         messageService.sendMessage(getChatIdFromUpdate(update), response);
     }
