@@ -57,7 +57,7 @@ public class DriverWeatherCommand extends AbstractWeatherCommand {
     private String formulateResponseMessage(String city) {
 
         Locale locale = botConfig.getLocale();
-        char per = 045;
+        char percent = 045;
 
         try {
 
@@ -67,7 +67,7 @@ public class DriverWeatherCommand extends AbstractWeatherCommand {
 
             return String.format(localeResponse, city, currentDriverWeather.getTemperature(),
                                                         currentDriverWeather.getPrecip(), currentDriverWeather.getWind(),
-                                                        currentDriverWeather.getHumidity(), per, currentDriverWeather.getVisibility(),
+                                                        currentDriverWeather.getHumidity(), percent, currentDriverWeather.getVisibility(),
                                                         currentDriverWeather.getSunIndex());
 
         } catch (NotValidException e) {

@@ -6,11 +6,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonIgnoreProperties
-public class Day {
+public class Day implements Serializable {
 
     @JsonProperty("maxtemp_c")
     private Integer maxTemp;
