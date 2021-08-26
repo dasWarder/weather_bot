@@ -8,19 +8,14 @@ import by.itechart.weather_bot.mapping.WeatherMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
-import static by.itechart.weather_bot.config.AppConfig.DRIVE_CACHE;
-import static by.itechart.weather_bot.config.AppConfig.WEATHER_CACHE;
 import static by.itechart.weather_bot.util.ValidateUtil.validateObject;
 import static org.apache.http.util.Asserts.notNull;
 
 @Slf4j
 @Service
-@Transactional(readOnly = true)
 public class WeatherStackService implements WeatherService {
 
     private final RestTemplate restTemplate;
@@ -39,7 +34,6 @@ public class WeatherStackService implements WeatherService {
     }
 
     @Override
-    @Cacheable(WEATHER_CACHE)
     public Weather getCurrentWeather(String city) throws NotValidException {
         notNull(city, "The city param must be not null");
         log.info("Receiving current weather for city = {}", city);
@@ -51,7 +45,6 @@ public class WeatherStackService implements WeatherService {
     }
 
     @Override
-    @Cacheable(DRIVE_CACHE)
     public DriverWeather getCurrentDriverWeatherInfo(String city) throws NotValidException {
         notNull(city, "The city param must be not null");
         log.info("Receiving current driver weather for city = {}", city);

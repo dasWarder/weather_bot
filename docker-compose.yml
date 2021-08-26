@@ -6,12 +6,3 @@ services:
     image: redis:6.2.3
     ports:
       - 6380:6379
-
-  bot:
-    container_name: weather_telegram_bot
-    build:
-      context: .
-    ports:
-    - 1994:1994
-    depends_on:
-      - redis
