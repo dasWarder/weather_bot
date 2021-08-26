@@ -2,7 +2,6 @@ package by.itechart.weather_bot.command;
 
 import by.itechart.weather_bot.bot.BotConfig;
 import by.itechart.weather_bot.dto.ForecastWeather;
-import by.itechart.weather_bot.exception.CityNotFoundException;
 import by.itechart.weather_bot.exception.NotValidException;
 import by.itechart.weather_bot.service.bot.SendBotMessageService;
 import by.itechart.weather_bot.service.weather.ForecastService;
@@ -90,7 +89,7 @@ public class ForecastCommand implements Command {
 
         Locale locale = botConfig.getLocale();
 
-        char per = 045;
+        char percent = 045;
 
         try {
 
@@ -102,7 +101,7 @@ public class ForecastCommand implements Command {
             String daysForecast = weatherForecast.getForecastDayDtos().stream()
                     .map(dto -> String.format(localeResponse, dto.getLocalDate(), dto.getMaxTemp(),
                             dto.getMinTemp(), dto.getAvgTemp(), (int) (dto.getMaxWind() * 0.27778),
-                            dto.getTotalPrecip(), dto.getAvgHumidity(), per,
+                            dto.getTotalPrecip(), dto.getAvgHumidity(), percent,
                             dto.getChanceOfRain(), dto.getSunIndex()))
                     .collect(Collectors.joining("\n\n"));
 

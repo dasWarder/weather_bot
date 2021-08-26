@@ -1,0 +1,5 @@
+redis:
+  container_name: sbs_redis
+  image: redis:6.2.3
+  ports:
+    - 6380:6379
