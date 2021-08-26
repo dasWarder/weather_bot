@@ -12,7 +12,7 @@ ENV WEATHER_API_KEY ${WEATHER_API_KEY}
 ENV REDIS_HOST=redis
 ENV REDIS_PORT=6379
 
-COPY target/*.jar /bot.jar
+COPY /target/*.jar /bot.jar
 
 CMD ["java", "-jar", "-Dspring.redis.host=$REDIS_HOST", "-Dspring.redis.port=$REDIS_PORT", "/bot.jar"]
 
