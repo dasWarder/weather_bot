@@ -23,7 +23,8 @@ public class HelpCommand implements Command {
                                                         "%s - receive start information \n" +
                                                         "%s <i>city_name</i> - get current weather for a city \n" +
                                                         "%s <i>city_name</i> - get drive weather for a city \n" +
-                                                        "%s <i>city_name</i> - get forecast for 3 days for a city";
+                                                        "%s <i>city_name</i> - get forecast for 3 days for a city \n" +
+                                                        "%s [<i>amount of days</i>] <i>city_name</i> - get forecast for N days(max 3) for a city \n";
 
     public static final String HELP_MESSAGE_RU = "<b>Возможные команды:</b>\n\n" +
                                         "%s - получить помощь \n" +
@@ -44,7 +45,7 @@ public class HelpCommand implements Command {
                                                    HELP.getCommandName(), RU.getCommandName(),
                                                    ENG.getCommandName(), START.getCommandName(),
                                                    GET_WEATHER.getCommandName(), GET_DRIVER_WEATHER.getCommandName(),
-                                                   FORECAST.getCommandName());
+                                                   FORECAST.getCommandName(), FORECAST.getCommandName());
 
         messageService.sendMessage(getChatIdFromUpdate(update), response);
     }
