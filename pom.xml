@@ -14,7 +14,6 @@
     <name>weather_bot</name>
     <description>Demo project for Spring Boot</description>
     <properties>
-        <java.version>16</java.version>
         <maven.compile.plugin.version>3.7.0</maven.compile.plugin.version>
         <telegram.starter.version>5.0.1</telegram.starter.version>
         <mapstruct.version>1.4.2.Final</mapstruct.version>
