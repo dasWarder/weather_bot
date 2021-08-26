@@ -2,6 +2,7 @@ package by.itechart.weather_bot.command;
 
 import by.itechart.weather_bot.bot.BotConfig;
 import by.itechart.weather_bot.dto.ForecastWeather;
+import by.itechart.weather_bot.exception.CityNotFoundException;
 import by.itechart.weather_bot.exception.NotValidException;
 import by.itechart.weather_bot.service.bot.SendBotMessageService;
 import by.itechart.weather_bot.service.weather.ForecastService;
@@ -54,22 +55,24 @@ public class ForecastCommand implements Command {
 
     @Override
     public void execute(Update update) {
+
         log.info("Try to create forecast request to forecastService and return a response");
 
         String chatId = getChatIdFromUpdate(update);
         String message = getMessageFromUpdate(update);
-
         String[] slicedMessage = message.split(" ");
         String days = String.valueOf(3);
         String city = null;
+
+        if(!isCommandValid(slicedMessage, chatId, botConfig, messageService)) {
+            return;
+        }
 
         if(slicedMessage.length == 3) {
             days = slicedMessage[1];
             city = slicedMessage[2];
         } else if (slicedMessage.length == 2) {
             city = slicedMessage[1];
-        } else {
-            city = "";
         }
 
         String command = slicedMessage[0];
@@ -93,7 +96,7 @@ public class ForecastCommand implements Command {
 
         try {
 
-            String localeResponse = selectLocationLanguage(locale,
+            String localeResponse = selectLocationLanguageMessage(locale,
                                                                 FORECAST_MESSAGE_RU, FORECAST_MESSAGE_ENG);
             ForecastWeather weatherForecast = forecastService.getWeatherForecast(city, days);
             validateObject(weatherForecast, weatherForecast.getForecastDayDtos());
@@ -108,8 +111,8 @@ public class ForecastCommand implements Command {
 
             return daysForecast;
 
-        } catch (NotValidException e) {
-            String localeResponse = selectLocationLanguage(locale,
+        } catch (NotValidException | CityNotFoundException e) {
+            String localeResponse = selectLocationLanguageMessage(locale,
                                                                 CITY_NOT_FOUND_RU, CITY_NOT_FOUND_ENG);
             return String.format(localeResponse, city);
         }

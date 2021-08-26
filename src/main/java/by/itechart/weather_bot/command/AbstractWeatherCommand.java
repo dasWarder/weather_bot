@@ -3,7 +3,12 @@ package by.itechart.weather_bot.command;
 import by.itechart.weather_bot.bot.BotConfig;
 import by.itechart.weather_bot.service.bot.SendBotMessageService;
 import by.itechart.weather_bot.service.weather.WeatherService;
+import by.itechart.weather_bot.util.botUtil.BotUtil;
 import org.telegram.telegrambots.meta.api.objects.Update;
+
+import static by.itechart.weather_bot.command.UnknownCommand.UNKNOWN_MESSAGE_ENG;
+import static by.itechart.weather_bot.command.UnknownCommand.UNKNOWN_MESSAGE_RU;
+import static by.itechart.weather_bot.util.botUtil.BotUtil.*;
 
 public abstract class AbstractWeatherCommand implements Command {
 

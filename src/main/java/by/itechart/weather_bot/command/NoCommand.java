@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import static by.itechart.weather_bot.util.botUtil.BotUtil.getChatIdFromUpdate;
-import static by.itechart.weather_bot.util.botUtil.BotUtil.selectLocationLanguage;
+import static by.itechart.weather_bot.util.botUtil.BotUtil.selectLocationLanguageMessage;
 
 @RequiredArgsConstructor
 public class NoCommand implements Command {
@@ -23,7 +23,7 @@ public class NoCommand implements Command {
 
     @Override
     public void execute(Update update) {
-        String localeResponse = selectLocationLanguage(botConfig.getLocale(),
+        String localeResponse = selectLocationLanguageMessage(botConfig.getLocale(),
                                                                             NO_MESSAGE_RU, NO_MESSAGE_ENG);
         messageService.sendMessage(getChatIdFromUpdate(update), localeResponse);
     }

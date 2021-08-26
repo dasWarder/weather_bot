@@ -2,7 +2,6 @@ package by.itechart.weather_bot.command;
 
 import by.itechart.weather_bot.bot.BotConfig;
 import by.itechart.weather_bot.service.bot.SendBotMessageService;
-import by.itechart.weather_bot.util.botUtil.BotUtil;
 import lombok.RequiredArgsConstructor;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
@@ -39,7 +38,7 @@ public class HelpCommand implements Command {
     @Override
     public void execute(Update update) {
 
-        String localeResponse = selectLocationLanguage(botConfig.getLocale(),
+        String localeResponse = selectLocationLanguageMessage(botConfig.getLocale(),
                                                                             HELP_MESSAGE_RU, HELP_MESSAGE_ENG);
         String response = String.format(localeResponse,
                                                    HELP.getCommandName(), RU.getCommandName(),

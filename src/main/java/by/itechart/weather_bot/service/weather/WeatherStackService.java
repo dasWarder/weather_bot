@@ -8,9 +8,9 @@ import by.itechart.weather_bot.mapping.WeatherMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import static by.itechart.weather_bot.config.AppConfig.DRIVE_CACHE;
@@ -20,6 +20,7 @@ import static org.apache.http.util.Asserts.notNull;
 
 @Slf4j
 @Service
+@Transactional(readOnly = true)
 public class WeatherStackService implements WeatherService {
 
     private final RestTemplate restTemplate;

@@ -11,6 +11,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import java.util.Locale;
 
 import static by.itechart.weather_bot.command.CommandName.GET_WEATHER;
+import static by.itechart.weather_bot.command.UnknownCommand.UNKNOWN_MESSAGE_RU;
 import static by.itechart.weather_bot.util.botUtil.BotUtil.*;
 
 @Slf4j
@@ -39,8 +40,13 @@ public class WeatherCommand extends AbstractWeatherCommand{
 
         String chatId = getChatIdFromUpdate(update);
         String message = getMessageFromUpdate(update);
-        String command = message.split(" ")[0];
-        String city = message.split(" ")[1];
+        String[] slicedMessage = message.split(" ");
+
+        if(!isCommandValid(slicedMessage, chatId, botConfig, messageService)) {
+            return;
+        }
+        String command = slicedMessage[0];
+        String city = slicedMessage[1];
 
         if(command.equalsIgnoreCase(GET_WEATHER.getCommandName())) {
 
@@ -48,7 +54,7 @@ public class WeatherCommand extends AbstractWeatherCommand{
             messageService.sendMessage(chatId, responseMessage);
 
         } else {
-            messageService.sendMessage(chatId, UnknownCommand.UNKNOWN_MESSAGE_RU);
+            messageService.sendMessage(chatId, UNKNOWN_MESSAGE_RU);
         }
     }
 
@@ -58,7 +64,7 @@ public class WeatherCommand extends AbstractWeatherCommand{
 
         try {
 
-            String localeResponse = selectLocationLanguage(locale,
+            String localeResponse = selectLocationLanguageMessage(locale,
                                                                 WEATHER_MESSAGE_RU, WEATHER_MESSAGE_ENG);
             Weather currentWeather = weatherService.getCurrentWeather(city);
 
@@ -66,7 +72,8 @@ public class WeatherCommand extends AbstractWeatherCommand{
                                                        currentWeather.getFeelsLike(), currentWeather.getPrecip(),
                                                        currentWeather.getWind(), currentWeather.getSunIndex());
         } catch (NotValidException e) {
-            String localeResponse = selectLocationLanguage(locale,
+
+            String localeResponse = selectLocationLanguageMessage(locale,
                                                                 CITY_NOT_FOUND_RU, CITY_NOT_FOUND_ENG);
             return String.format(localeResponse, city);
         }

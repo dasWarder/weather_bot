@@ -41,8 +41,13 @@ public class DriverWeatherCommand extends AbstractWeatherCommand {
 
         String chatId = getChatIdFromUpdate(update);
         String message = getMessageFromUpdate(update);
-        String command = message.split(" ")[0];
-        String city = message.split(" ")[1];
+        String[] slicedMessage = message.split(" ");
+
+        if(!isCommandValid(slicedMessage, chatId, botConfig, messageService)) {
+            return;
+        }
+        String command = slicedMessage[0];
+        String city = slicedMessage[1];
 
         if(command.equalsIgnoreCase(GET_DRIVER_WEATHER.getCommandName())) {
 
@@ -61,7 +66,7 @@ public class DriverWeatherCommand extends AbstractWeatherCommand {
 
         try {
 
-            String localeResponse = selectLocationLanguage(locale,
+            String localeResponse = selectLocationLanguageMessage(locale,
                                                                  WEATHER_MESSAGE_RU, WEATHER_MESSAGE_ENG);
             DriverWeather currentDriverWeather = weatherService.getCurrentDriverWeatherInfo(city);
 
@@ -72,7 +77,7 @@ public class DriverWeatherCommand extends AbstractWeatherCommand {
 
         } catch (NotValidException e) {
 
-            String localeResponse = selectLocationLanguage(locale,
+            String localeResponse = selectLocationLanguageMessage(locale,
                                                                  CITY_NOT_FOUND_RU, CITY_NOT_FOUND_ENG);
             return String.format(localeResponse, city);
 

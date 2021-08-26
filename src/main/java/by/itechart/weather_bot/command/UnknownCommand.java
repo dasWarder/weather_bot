@@ -2,12 +2,11 @@ package by.itechart.weather_bot.command;
 
 import by.itechart.weather_bot.bot.BotConfig;
 import by.itechart.weather_bot.service.bot.SendBotMessageService;
-import by.itechart.weather_bot.util.botUtil.BotUtil;
 import lombok.RequiredArgsConstructor;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import static by.itechart.weather_bot.util.botUtil.BotUtil.getChatIdFromUpdate;
-import static by.itechart.weather_bot.util.botUtil.BotUtil.selectLocationLanguage;
+import static by.itechart.weather_bot.util.botUtil.BotUtil.selectLocationLanguageMessage;
 
 @RequiredArgsConstructor
 public class UnknownCommand implements Command {
@@ -24,7 +23,7 @@ public class UnknownCommand implements Command {
 
     @Override
     public void execute(Update update) {
-        String localeResponse = selectLocationLanguage(botConfig.getLocale(),
+        String localeResponse = selectLocationLanguageMessage(botConfig.getLocale(),
                                                                             UNKNOWN_MESSAGE_RU, UNKNOWN_MESSAGE_ENG);
 
         messageService.sendMessage(getChatIdFromUpdate(update), localeResponse);

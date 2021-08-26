@@ -2,6 +2,7 @@ package by.itechart.weather_bot.service.weather;
 
 import by.itechart.weather_bot.dto.ForecastWeather;
 import by.itechart.weather_bot.dto.weatherapi.WeatherApiWeather;
+import by.itechart.weather_bot.exception.CityNotFoundException;
 import by.itechart.weather_bot.exception.NotValidException;
 import by.itechart.weather_bot.mapping.WeatherMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -13,11 +14,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import static by.itechart.weather_bot.config.AppConfig.FORECAST_CACHE;
-import static by.itechart.weather_bot.config.AppConfig.WEATHER_CACHE;
 import static by.itechart.weather_bot.util.ValidateUtil.validateObject;
 
 @Slf4j
 @Service
+@Transactional(readOnly = true)
 public class WeatherApiForecastService implements ForecastService {
 
     @Value("${api.weatherapi.key}")
@@ -36,15 +37,24 @@ public class WeatherApiForecastService implements ForecastService {
     }
 
     @Override
-    @Cacheable(WEATHER_CACHE)
-    public ForecastWeather getWeatherForecast(String city, String days) throws NotValidException {
+    @Cacheable(FORECAST_CACHE)
+    public ForecastWeather getWeatherForecast(String city, String days) throws NotValidException, CityNotFoundException {
         validateObject(city, days);
-        log.info("Receive 3 days forecast for city = {}", city);
+        log.info("Receive " + days + " days forecast for city = {}", city);
 
         String uri = String.format(BASE_URI, API_KEY, city, days);
-        WeatherApiWeather forecastApiResponse = restTemplate.getForObject(uri, WeatherApiWeather.class);
-        ForecastWeather responseDto = mapper.fromWeatherApiWeatherToForecastWeather(forecastApiResponse);
 
-        return responseDto;
+        try {
+
+            WeatherApiWeather forecastApiResponse = restTemplate.getForObject(uri, WeatherApiWeather.class);
+            validateObject(forecastApiResponse, forecastApiResponse.getForecast(), forecastApiResponse.getForecast().getForecastDays());
+            ForecastWeather responseDto = mapper.fromWeatherApiWeatherToForecastWeather(forecastApiResponse);
+
+            return responseDto;
+
+        } catch (Exception e) {
+
+            throw new CityNotFoundException("City with a name " + city + " not found!");
+        }
     }
 }
