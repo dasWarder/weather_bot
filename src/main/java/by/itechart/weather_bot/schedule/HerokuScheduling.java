@@ -14,7 +14,7 @@ public class HerokuScheduling {
 
     private static final String REQUEST_URL = "https://google.com";
 
-    @Scheduled(cron = "* 15 * * * * *")
+    @Scheduled(cron = "* 15 * * * *")
     public void ping() {
         try {
             URL url = new URL(REQUEST_URL);
