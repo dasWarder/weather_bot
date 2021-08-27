@@ -47,6 +47,10 @@ public class ForecastCommand implements Command {
                                                         "Вероятность дождя: <strong>%d &#9730;</strong> \n" +
                                                         "Количество солнечного света: <strong>%d &#9728;</strong> \n";
 
+    public static final String NO_FORECAST_ENG = "There is no forecast for this city. Sorry :(";
+
+    public static final String NO_FORECAST_RU = "К сожалению, прогноза на ближайшие дни нет для этого города. Простите :(";
+
     public ForecastCommand(BotConfig botConfig, SendBotMessageService messageService, ForecastService forecastService) {
         this.botConfig = botConfig;
         this.messageService = messageService;
@@ -100,6 +104,12 @@ public class ForecastCommand implements Command {
                                                                 FORECAST_MESSAGE_RU, FORECAST_MESSAGE_ENG);
             ForecastWeather weatherForecast = forecastService.getWeatherForecast(city, days);
             validateObject(weatherForecast, weatherForecast.getForecastDayDtos());
+
+            if(weatherForecast.getForecastDayDtos().isEmpty()) {
+                String noForecastLocaleResponse = selectLocationLanguageMessage(locale,
+                                                                                    NO_FORECAST_RU, NO_FORECAST_ENG);
+                return noForecastLocaleResponse;
+            }
 
             String daysForecast = weatherForecast.getForecastDayDtos().stream()
                     .map(dto -> String.format(localeResponse, dto.getLocalDate(), dto.getMaxTemp(),
