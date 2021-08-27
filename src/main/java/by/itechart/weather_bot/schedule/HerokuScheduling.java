@@ -1,28 +1,25 @@
 package by.itechart.weather_bot.schedule;
 
+import by.itechart.weather_bot.bot.BotConfig;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 @Slf4j
 @Component
 public class HerokuScheduling {
 
-    private static final String REQUEST_URL = "https://google.com";
+    @Autowired
+    private BotConfig botConfig;
 
-    @Scheduled(cron = "* 15 * * * *")
+    @Scheduled(cron = "* 10 * * * *")
     public void ping() {
         try {
-            URL url = new URL(REQUEST_URL);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.connect();
-            log.info("Ping connection to the {}", REQUEST_URL);
-            connection.disconnect();
-        } catch (IOException e) {
+            botConfig.execute(new SendMessage());
+        } catch (TelegramApiException e) {
             e.printStackTrace();
         }
     }
